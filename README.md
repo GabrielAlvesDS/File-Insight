@@ -1,2 +1,2 @@
 # File-Insight
-Aplicação web desenvolvida com Streamlit para realizar análises interativas e consultas em arquivos CSV e DOCX.
+Aplicação web desenvolvida com Streamlit para realizar análises interativas e consultas em arquivos CSV e DOCX. O objetivo do projeto é permitir que os usuários façam upload de arquivos, insiram perguntas relacionadas aos dados e obtenham respostas rápidas e precisas com base no conteúdo do documento. Com uma interface amigável, o FileInsight facilita a interpretação de dados em diferentes formatos, gerando insights relevantes de forma prática e eficiente.
