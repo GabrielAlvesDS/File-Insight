@@ -1,6 +1,6 @@
 langchain==0.2.16
 langchain-openai==0.1.
-langchain-experimental==0.065
+langchain-experimental
 streamlit==1.37.1
 openai==1.42.0
 tiktoken==0.7.0
