@@ -44,7 +44,7 @@ def query_agent_doc(data, query):
         
         # Aqui podemos fazer perguntas sobre o texto extraído
         prompt = f"O seguinte é o conteúdo de um documento: {doc_text}\n\nResponda à seguinte pergunta: {query}"
-        response = llm(prompt).content
+        response = llm(prompt).content  
         
         return response
     except ValueError as e:
