@@ -3,6 +3,11 @@ import streamlit as st
 from dotenv import load_dotenv
 from utils import query_agent_csv, query_agent_doc
 
+file_size_mb = 5
+
+FILE_SIZE_LIMIT = file_size_mb * 1024 * 1024
+
+
 # Customizando o layout da página (Centralizando e ajustando largura) 
 st.set_page_config(page_title="Análise de Arquivos CSV ou DOCX", layout="centered", page_icon="💡")
 
@@ -48,16 +53,36 @@ else:
     # Apenas mantém a API Key no estado sem exibi-la
     st.sidebar.text_input("Sua API Key (mantida em sigilo)", type="password", value="", disabled=True)
 
+st.markdown(f"<h3 '>Upload de {file_type}:</h3>", unsafe_allow_html=True)
+
 # Ajustar o layout com colunas para upload e consulta
-col1, col2 = st.columns(2)
+if file_type == "CSV":
+    col1, col2 = st.columns(2)
+    with col1:
+        col11, col12 = st.columns(2)
+        with col11:
+            decimal_type = st.radio("Escolha o tipo de decimal", [".", ","], index=0)
+        with col12:
+            delimiter_type = st.radio("Escolha o delimitador", [",", ";"], index=0)
+            # Validação para impedir que decimal e delimitador sejam iguais
+        if decimal_type == delimiter_type:
+            st.error("O delimitador e o separador decimal não podem ser iguais. Por favor, escolha valores diferentes.")
+            st.stop()
+    with col2:
+        data = st.file_uploader(f"Carregue seu arquivo {file_type}", type=[file_type.lower()])
+else:
+    data = st.file_uploader(f"Carregue seu arquivo {file_type}", type="docx")
+    
+if data is not None:
+    file_size = data.size
+    if file_size > FILE_SIZE_LIMIT:
+        st.error(f"O tamanho do arquivo excede o limite de {file_size_mb} MB. Seu arquivo tem {file_size / (1024 * 1024):.2f} MB.")
+        st.stop()
 
-with col1:
-    st.markdown(f"<h3 '>Upload de {file_type}:</h3>", unsafe_allow_html=True)
-    data = st.file_uploader(f"Carregue seu arquivo {file_type}", type=["csv", "docx"])
+st.markdown("<h3 '>Consulta:</h3>", unsafe_allow_html=True)
+query = st.text_area("Digite sua consulta", placeholder="Ex: Qual foi o faturamento em julho?")
 
-with col2:
-    st.markdown("<h3 '>Consulta:</h3>", unsafe_allow_html=True)
-    query = st.text_area("Digite sua consulta", placeholder="Ex: Qual foi o faturamento em julho?")
+
 
 # Botão para gerar a resposta (apenas 1)
 button = st.button("Gerar Resposta")
@@ -66,8 +91,9 @@ button = st.button("Gerar Resposta")
 if button:
     if data is not None:
         # Verifica se o número máximo de tentativas foi alcançado
-        if (file_type == "CSV" and st.session_state['count_csv_free_trials'] < 1) or \
-           (file_type == "DOCX" and st.session_state['count_docx_free_trials'] < 1):
+        if (file_type == "CSV" and st.session_state['count_csv_free_trials'] < 1):
+            st.error(f"Limite de tentativas atingido! Você fez {1 - st.session_state['count_csv_free_trials']} perguntas para CSV e {1 - st.session_state['count_docx_free_trials']} perguntas para DOCX.")
+        elif (file_type == "DOCX" and st.session_state['count_docx_free_trials'] < 1):
             st.error(f"Limite de tentativas atingido! Você fez {1 - st.session_state['count_csv_free_trials']} perguntas para CSV e {1 - st.session_state['count_docx_free_trials']} perguntas para DOCX.")
         else:
             st.info("Processando sua consulta, por favor aguarde...")
