@@ -1,6 +1,7 @@
 # File-Insight
-Aplicação web desenvolvida com Streamlit para realizar análises interativas e consultas em arquivos CSV e DOCX. O objetivo do projeto é permitir que os usuários façam upload de arquivos, insiram perguntas relacionadas aos dados e obtenham respostas rápidas e precisas com base no conteúdo do documento. 
 
-Com uma interface amigável, o File-Insight facilita a interpretação de dados em diferentes formatos, gerando insights relevantes de forma prática e eficiente.
+O File-Insight é uma plataforma web intuitiva, desenvolvida com Streamlit, que possibilita a análise interativa e consultas automatizadas em arquivos CSV e DOCX. O projeto foi criado para facilitar o upload de arquivos, permitindo que os usuários façam perguntas diretamente sobre os dados contidos nos documentos e obtenham respostas rápidas e precisas.
 
-A aplicação inclui funcionalidades como verificação de chave de API, limite de tentativas para consultas gratuitas e restrição de tamanho de arquivo para uploads, visando minimizar o uso do saldo da conta na OpenAI.
+Com uma interface simples e acessível, a plataforma gera insights relevantes de maneira prática, oferecendo suporte a diferentes formatos de dados. A inclusão de funcionalidades como a verificação de chave de API, limite de tentativas para consultas gratuitas, e restrição de tamanho de upload visa otimizar o uso do saldo da conta OpenAI, tornando o processo mais eficiente.
+
+[Experimente o File-Insight aqui](https://file-insight.onrender.com/)
